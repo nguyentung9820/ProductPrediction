@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="customer_history" resource="default" engine="innodb" comment="History">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="user_id" unsigned="true" nullable="true" comment="User id" />
+        <column xsi:type="text" name="product_ids" nullable="true" comment="Product id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CUSTOMER_HISTORY_PREDICTION_ID" column="user_id" table="customer_history"
+                    referenceTable="customer_entity" referenceColumn="entity_id" onDelete="CASCADE" />
+    </table>
+</schema>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_ProductPrediction::product_prediction"
+             title="Product Prediction"
+             translate="title"
+             module="Magenest_ProductPrediction"
+             sortOrder="20"
+             resource="Magenest_ProductPrediction::google_shopping"
+        />
+        <add id="Magenest_ProductPrediction::logviewer"
+             title="Customer Behavior"
+             translate="title"
+             module="Magenest_ProductPrediction"
+             sortOrder="10"
+             parent="Magenest_ProductPrediction::product_prediction"
+             action="hust/debug/logviewer"
+             resource="Magenest_ProductPrediction::product_prediction"
+        />
+        <add id="Magenest_ProductPrediction::dashboard"
+             title="DashBoard"
+             translate="title"
+             module="Magenest_ProductPrediction"
+             sortOrder="20"
+             parent="Magenest_ProductPrediction::product_prediction"
+             action="hust/service/dashboard"
+             resource="Magenest_ProductPrediction::product_prediction"
+        />
+    </menu>
+</config>
