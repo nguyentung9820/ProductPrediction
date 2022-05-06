@@ -74,8 +74,8 @@ class DashBoard extends Template
      */
     public function getFpGrowthSampleData() {
         $transactions = $this->getSampleData();
-        $support = 0.03;
-        $confidence = 0.1;
+        $support = 0.2;
+        $confidence = 0.2;
 
         $fpgrowth = new FPGrowth($transactions, $support, $confidence);
         $start = microtime(true);
@@ -95,7 +95,7 @@ class DashBoard extends Template
      */
     public function getAprioriSampleData() {
         $transactions = $this->getSampleData();
-        $associator = new Apriori($support = 0.03, $confidence = 0.1);
+        $associator = new Apriori($support = 0.2, $confidence = 0.2);
         $start = microtime(true);
         $associator->train($transactions,[]);
         $associator->predict($transactions);
@@ -114,16 +114,18 @@ class DashBoard extends Template
      * @throws \Exception
      */
     public function getSampleData() {
+        $users = [
+            584885452,568821415,584898150,528706572,576852533
+        ];
         $file = $this->directoryList->getRoot()."/app/code/Magenest/ProductPrediction/sample.csv";
         $this->csv->setDelimiter(',');
         $rows = $this->csv->getData($file);
         $header = array_shift($rows);
-        unset($rows[49]);
-        unset($rows[50]);
         $transactions = [];
         foreach ($rows as $row) {
-            $tmp = preg_split("/\t+/", $row[0]);
-            $transactions[end($tmp)][] = $tmp[2];
+            if (isset($row[2]) && $row[7] && in_array($row[7], $users)){
+                $transactions[$row[7]][] = $row[2];
+            }
         }
         return array_values($transactions);
     }

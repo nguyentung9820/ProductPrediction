@@ -13,11 +13,85 @@ $memory =  ini_get('memory_limit');
     <div id="piechart" style="width: 900px; height: 500px;"></div>
 </div>
 
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
+<section class="admin__page-section">
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-title"><span class="title">Transactions and Diagram</span></div>
+            <div class="admin__page-section-content">
+                <table class="data-table admin__table-primary">
+                    <thead>
+                        <tr class="headings">
+                            <th class="col-product">Transactions</th>
+                            <th class="col-prediction">Items</th>
+                        </tr>
+                    </thead>
+                    <?php
+                    $count = 0;
+                    foreach ($block->getSampleData() as $product): ?>
+
+                        <tr>
+                            <td><?php echo $count ?></td>
+                            <td><?php echo json_encode(array_values($product)) ?></td>
+                        </tr>
+
+                        <?php
+                        $count ++;
+                    endforeach; ?>
+
+                </table>
+            </div>
+        </div>
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-title"><span class="title">Apriori</span></div>
+            <div class="admin__page-section-item-content">
+                <table class="data-table admin__table-primary">
+                    <thead>
+                        <tr class="headings">
+                            <th class="col-product">Products</th>
+                            <th class="col-prediction">Predictions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($aprioriData['rules'] as $element1): ?>
+
+                        <tr>
+                            <td class="col"><?php echo json_encode($element1['antecedent']) ?></td>
+                            <td class="col"><?php echo json_encode($element1['consequent']) ?></td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-title"><span class="title">FP-Growth</span></div>
+            <div class="admin__page-section-item-content">
+                <table class="data-table admin__table-primary">
+                    <thead>
+                    <tr class="headings">
+                        <th class="col-product">Products</th>
+                        <th class="col-prediction">Predictions</th>
+                    </tr>
+                    </thead>
+                    <?php foreach ($FpGrowthdata['rules'] as $element2): ?>
+                        <?php if ($element2['consequent'] != "" && $element2['liftRatio'] != 0): ?>
+                        <tr>
+                            <td><?php echo ($element2['antecedent']) ?></td>
+                            <td><?php echo ($element2['consequent']) ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--<style>-->
+<!--    table, th, td {-->
+<!--        border: 1px solid black;-->
+<!--    }-->
+<!--</style>-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load("current", {packages:['corechart']});
